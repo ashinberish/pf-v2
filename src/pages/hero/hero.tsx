@@ -16,7 +16,7 @@ export const Hero = () => {
                 <a href='https://github.com/ashinberish' className="text-slate-500"><img src={GithubIcon} alt='github' /></a>
                 <a href='https://www.linkedin.com/in/ashin-berish/' className="text-slate-500"><img src={LinkedInIcon} alt='linkedin' /></a>
                 <a href='https://twitter.com/ashinberish' className="text-slate-500"><img src={TwitterIcon} alt='twitter' /></a>
-                <a href='https://instgram.com' className="text-slate-500"><img src={InstagramIcon} alt='instgram' /></a>
+                <a href='https://www.instagram.com/_ashx.n/' className="text-slate-500"><img src={InstagramIcon} alt='instgram' /></a>
             </div>
             <hr className="flex-grow border-t border-gray-300"></hr>
             <div className='py-4'>
