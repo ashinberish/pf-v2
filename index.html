@@ -2,12 +2,77 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ashin Berish</title>
+    <title>Ashin Berish · Software Engineer in Chennai</title>
+    <meta name="description" content="Ashin Berish is a software engineer at Excelencia iTech Consulting in Chennai, India, building fast, sharp web interfaces with React and TypeScript." />
+    <meta name="author" content="Ashin Berish" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#ff5a1f" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Ashin Berish" />
+    <meta property="og:title" content="Ashin Berish · Software Engineer" />
+    <meta property="og:description" content="Software engineer in Chennai. Turning coffee into code since 2022." />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ashin Berish, Software Engineer, on an orange stage-style banner" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="profile:first_name" content="Ashin" />
+    <meta property="profile:last_name" content="Berish" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@ashinberish" />
+    <meta name="twitter:creator" content="@ashinberish" />
+    <meta name="twitter:title" content="Ashin Berish · Software Engineer" />
+    <meta name="twitter:description" content="Software engineer in Chennai. Turning coffee into code since 2022." />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "%VITE_SITE_URL%/#person",
+            "name": "Ashin Berish",
+            "url": "%VITE_SITE_URL%/",
+            "image": "%VITE_SITE_URL%/og-image.png",
+            "jobTitle": "Software Engineer",
+            "worksFor": { "@type": "Organization", "name": "Excelencia iTech Consulting" },
+            "address": { "@type": "PostalAddress", "addressLocality": "Chennai", "addressCountry": "IN" },
+            "knowsAbout": ["React", "TypeScript", "JavaScript", "Tailwind CSS", "Vite", "Frontend engineering"],
+            "sameAs": [
+              "https://github.com/ashinberish",
+              "https://www.linkedin.com/in/ashin-berish/",
+              "https://twitter.com/ashinberish",
+              "https://www.instagram.com/_ashx.n/"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "%VITE_SITE_URL%/#website",
+            "url": "%VITE_SITE_URL%/",
+            "name": "Ashin Berish",
+            "publisher": { "@id": "%VITE_SITE_URL%/#person" },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "ProfilePage",
+            "url": "%VITE_SITE_URL%/",
+            "name": "Ashin Berish · Software Engineer in Chennai",
+            "mainEntity": { "@id": "%VITE_SITE_URL%/#person" }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
