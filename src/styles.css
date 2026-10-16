@@ -162,8 +162,8 @@ nav .wrap { display: flex; align-items: center; justify-content: space-between; 
 .big-cta { font-size: clamp(36px, 7.6vw, 120px); font-weight: 700; letter-spacing: -.06em; line-height: .9; white-space: nowrap; }
 .big-cta span { display: inline-block; }
 .socials { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 48px; }
-.mag { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border: 2px solid var(--ink); border-radius: 999px; text-decoration: none; font-weight: 600; transition: transform .5s var(--ease), background .25s, color .25s; }
-.mag:hover { background: var(--ink); color: var(--stage); transition: transform .1s linear, background .25s, color .25s; }
+.mag { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border: 2px solid var(--ink); border-radius: 999px; text-decoration: none; font-weight: 600; transition: translate .25s var(--ease), background .25s, color .25s; }
+.mag:hover { background: var(--ink); color: var(--stage); }
 .mag svg { width: 14px; height: 14px; transition: transform .3s; }
 .mag:hover svg { transform: rotate(45deg); }
 
@@ -216,29 +216,26 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 /* hold the hero sequence until the loader exits, then it plays from the start */
 .loading .hero, .loading .hero *, .loading .hero *::before, .loading .hero *::after { animation-play-state: paused !important; }
 
-/* custom cursor (fine pointers only; driven by Cursor.tsx). Ink on orange surfaces, orange on dark. */
+/* iPadOS-style pointer (fine pointers only; geometry driven by Cursor.tsx).
+   Translucent ink on orange surfaces, translucent paper on dark ones. */
 .cursor {
-  --cur: var(--stage); --cur-text: var(--ink); --size: 12px;
-  position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; width: 0; height: 0;
-  opacity: 0; transition: opacity .25s;
+  --cur: rgba(246, 239, 233, .38);
+  --cur-snap: rgba(246, 239, 233, .14);
+  position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none;
+  width: 18px; height: 18px; border-radius: 9px;
+  background: var(--cur); opacity: 0;
+  transition: opacity .25s, background-color .25s, scale .2s var(--ease);
+  will-change: transform, width, height;
 }
-.cursor[data-surface='light'] { --cur: var(--ink); --cur-text: var(--stage); }
+.cursor[data-surface='light'] { --cur: rgba(42, 18, 6, .42); --cur-snap: rgba(42, 18, 6, .12); }
 .cursor.on { opacity: 1; }
-.cursor-ball {
-  position: absolute; left: calc(var(--size) / -2); top: calc(var(--size) / -2);
-  width: var(--size); height: var(--size); border-radius: 50%;
-  background: var(--cur); border: 1.5px solid var(--cur);
-  transition: width .35s var(--ease), height .35s var(--ease), left .35s var(--ease), top .35s var(--ease),
-    background-color .25s, border-color .25s;
-}
-.cursor[data-state='link'] { --size: 46px; }
-.cursor[data-state='link'] .cursor-ball { background: transparent; }
-.cursor[data-state='label'] { --size: 84px; }
-.cursor.down .cursor-ball { width: calc(var(--size) * .8); height: calc(var(--size) * .8); left: calc(var(--size) * -.4); top: calc(var(--size) * -.4); }
-.cursor-text {
-  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%) scale(.6); opacity: 0;
-  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap;
-  color: var(--cur-text); transition: opacity .2s, transform .35s var(--ease);
-}
-.cursor[data-state='label'] .cursor-text { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.cursor[data-mode='snap'] { background: var(--cur-snap); }
+.cursor[data-mode='text'] { --cur: rgba(246, 239, 233, .7); }
+.cursor[data-mode='text'][data-surface='light'] { --cur: rgba(42, 18, 6, .75); }
+.cursor.down { scale: .92; }
 .has-cursor, .has-cursor * { cursor: none !important; }
+/* the pointer's highlight replaces the pill's own hover fill */
+.has-cursor .mag:hover { background: transparent; color: inherit; }
+.has-cursor .mag:hover svg { transform: rotate(45deg); }
+.has-cursor .nav-links a::after { display: none; }
+a, button { transition: translate .25s var(--ease); }

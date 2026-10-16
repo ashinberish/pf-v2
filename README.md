@@ -17,4 +17,4 @@ Personal site for Ashin Berish. React + Vite, prerendered to static HTML for SEO
 
 ## Motion
 
-All animation is CSS or small vanilla hooks (no animation library): staged hero load, halftone build-up that dissolves into the portrait photo, subtitle-style caption, skills marquee, scroll-scrubbed About statement, scroll-driven reveals, magnetic links and a reading progress bar. Everything respects `prefers-reduced-motion`.
+All animation is CSS or small vanilla hooks (no animation library): staged hero load, halftone build-up that dissolves into the portrait photo, subtitle-style caption, skills marquee, scroll-scrubbed About statement, scroll-driven reveals, iPadOS-style pointer that morphs onto buttons and a reading progress bar. Everything respects `prefers-reduced-motion`.
