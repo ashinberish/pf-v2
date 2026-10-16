@@ -28,6 +28,7 @@ export const Cursor = () => {
     let raf = 0
     let last = 0
     let seen = false
+    let down = false
 
     const release = () => {
       if (snapEl) snapEl.style.translate = ''
@@ -61,6 +62,11 @@ export const Cursor = () => {
         radius = 2
       }
 
+      // press: shrink in place (sizes stay centred on x/y)
+      if (down) {
+        tw *= mode === 'snap' ? 0.96 : 0.8
+        th *= mode === 'snap' ? 0.96 : 0.8
+      }
       const k = 1 - Math.pow(mode === 'dot' ? 0.45 : 0.6, dt)
       x += (tx - x) * k
       y += (ty - y) * k
@@ -127,8 +133,14 @@ export const Cursor = () => {
       release()
       mode = 'dot'
     }
-    const onDown = () => c.classList.add('down')
-    const onUp = () => c.classList.remove('down')
+    const onDown = () => {
+      down = true
+      kick()
+    }
+    const onUp = () => {
+      down = false
+      kick()
+    }
 
     window.addEventListener('pointermove', onMove, { passive: true })
     window.addEventListener('scroll', onScroll, { passive: true })
