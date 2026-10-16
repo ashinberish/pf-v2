@@ -8,6 +8,11 @@
     <meta name="author" content="Ashin Berish" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#ff5a1f" />
+    <script>
+      // Show the intro loader only when JS runs; fail safe if the bundle never boots.
+      document.documentElement.classList.add('js', 'loading')
+      setTimeout(function () { document.documentElement.classList.remove('js', 'loading') }, 8000)
+    </script>
     <link rel="canonical" href="%VITE_SITE_URL%/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

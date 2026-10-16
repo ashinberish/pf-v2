@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import portraitJpg from '../assets/portrait.jpg'
 import portraitWebp from '../assets/portrait.webp'
+import { onIntroDone } from '../intro'
 import { prefersReducedMotion } from '../motion'
 
 type Dot = { x: number; y: number; r: number; dist: number }
@@ -83,11 +84,14 @@ export const Halftone = ({ alt }: { alt: string }) => {
       if (!raf) raf = requestAnimationFrame(draw)
     }
 
+    let offIntro = () => {}
     const onLoad = () => {
       build()
-      start = performance.now() + (reduce ? 0 : 250)
-      setReady(true)
-      kick()
+      offIntro = onIntroDone(() => {
+        start = performance.now() + (reduce ? 0 : 250)
+        setReady(true)
+        kick()
+      })
     }
     const onResize = () => {
       build()
@@ -113,6 +117,7 @@ export const Halftone = ({ alt }: { alt: string }) => {
     fig.addEventListener('pointerleave', onLeave)
     return () => {
       cancelAnimationFrame(raf)
+      offIntro()
       img.removeEventListener('load', onLoad)
       window.removeEventListener('resize', onResize)
       fig.removeEventListener('pointermove', onMove)
@@ -121,7 +126,7 @@ export const Halftone = ({ alt }: { alt: string }) => {
   }, [])
 
   return (
-    <figure className="portrait" ref={frame}>
+    <figure className="portrait" ref={frame} data-cursor="Move">
       <picture>
         <source srcSet={portraitWebp} type="image/webp" />
         <img src={portraitJpg} alt={alt} width={600} height={716} decoding="async" {...{ fetchpriority: "high" }} />

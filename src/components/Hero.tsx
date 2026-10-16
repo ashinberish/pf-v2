@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { site } from '../site'
+import { onIntroDone } from '../intro'
 import { prefersReducedMotion } from '../motion'
 import { Halftone } from './Halftone'
 
@@ -12,8 +13,14 @@ const Caption = ({ text }: { text: string }) => {
   useEffect(() => {
     if (prefersReducedMotion()) return
     setLit(0)
-    const timers = Array.from({ length: count }, (_, k) => window.setTimeout(() => setLit(k + 1), 1700 + k * 160))
-    return () => timers.forEach(clearTimeout)
+    let timers: number[] = []
+    const off = onIntroDone(() => {
+      timers = Array.from({ length: count }, (_, k) => window.setTimeout(() => setLit(k + 1), 1700 + k * 160))
+    })
+    return () => {
+      off()
+      timers.forEach(clearTimeout)
+    }
   }, [count])
 
   return (

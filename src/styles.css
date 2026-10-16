@@ -194,3 +194,43 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition: none !important; }
   .reveal, .big-cta span, .track { animation: none !important; }
 }
+
+/* intro loader (only shown when JS runs; see index.html) */
+.loader { display: none; }
+.js .loader {
+  position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--ink); color: var(--stage);
+  padding-block: max(20px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-bottom, 0px));
+  clip-path: inset(0 0 0 0); transition: clip-path 1s cubic-bezier(.76, 0, .24, 1);
+}
+.js .loader.exit { clip-path: inset(0 0 100% 0); }
+.loader .wrap { width: 100%; display: flex; justify-content: space-between; align-items: end; gap: 16px; }
+.loader-mark { font-weight: 700; font-size: 20px; letter-spacing: -.04em; }
+.loader-line { font-family: var(--serif); font-size: clamp(28px, 4vw, 56px); line-height: 1.1; color: var(--paper); display: flex; flex-wrap: wrap; gap: 0 .25em; }
+.loader-line span { display: inline-block; animation: loaderWord .7s var(--ease) both; animation-delay: calc(.1s + var(--k) * 90ms); }
+@keyframes loaderWord { from { opacity: 0; transform: translateY(60%); filter: blur(6px); } }
+.loader-count { font-weight: 700; font-size: clamp(96px, 22vw, 320px); line-height: .8; letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
+.loader.exit .loader-count, .loader.exit .loader-line { transform: translateY(-40px); opacity: 0; transition: transform .6s var(--ease), opacity .4s; }
+.loader-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--stage); transform-origin: 0 50%; }
+
+/* hold the hero sequence until the loader exits, then it plays from the start */
+.loading .hero, .loading .hero *, .loading .hero *::before, .loading .hero *::after { animation-play-state: paused !important; }
+
+/* custom cursor (fine pointers only; enabled by Cursor.tsx) */
+.cursor-dot, .cursor-ring { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; opacity: 0; transition: opacity .3s; mix-blend-mode: difference; }
+.cursor-on .cursor-dot, .cursor-on .cursor-ring { opacity: 1; }
+.cursor-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: #fff; }
+.cursor-ring { width: 0; height: 0; }
+.cursor-ring::before {
+  content: ''; position: absolute; left: -20px; top: -20px; width: 40px; height: 40px; border-radius: 50%;
+  border: 1.5px solid #fff; transition: transform .35s var(--ease), background .25s, border-color .25s;
+}
+.cursor-hover .cursor-ring::before { transform: scale(1.6); background: #fff; }
+.cursor-label .cursor-ring::before { transform: scale(2.1); }
+.cursor-down .cursor-ring::before { transform: scale(.8); }
+.cursor-ring span {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+  font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #000; white-space: nowrap;
+}
+.cursor-hover .cursor-dot { opacity: 0; }
+.has-cursor, .has-cursor * { cursor: none !important; }

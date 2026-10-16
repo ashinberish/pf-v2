@@ -10,7 +10,7 @@ export const Experience = () => (
       <ol className="rows">
         {site.experience.map(job => (
           <li key={job.title + job.start}>
-            <a className="row reveal" href={job.href} target="_blank" rel="noopener">
+            <a className="row reveal" data-cursor="Open" href={job.href} target="_blank" rel="noopener">
               <div>
                 <h3>{job.title}</h3>
                 <p>{job.company}, {job.place}</p>
