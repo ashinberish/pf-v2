@@ -69,10 +69,7 @@ export const Hero = () => (
             ))}
           </span>
         </h1>
-        <p className="role">
-          <span>{site.role}</span>
-          <span>{site.location}</span>
-        </p>
+        <p className="role">{site.role}</p>
         <Caption text={site.caption} />
       </div>
     </div>
