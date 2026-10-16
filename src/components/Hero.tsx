@@ -82,7 +82,6 @@ export const Hero = () => (
         <span aria-hidden="true" />
         Scroll
       </a>
-      <span className="label">Portfolio · v2</span>
     </div>
   </header>
 )

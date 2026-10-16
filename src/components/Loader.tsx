@@ -68,7 +68,7 @@ export const Loader = () => {
     <div className={`loader ${state === 'exit' ? 'exit' : ''}`} aria-hidden="true">
       <div className="loader-top wrap">
         <span className="loader-mark">ab.</span>
-        <span className="label">Portfolio · v2</span>
+        <span className="label">{site.role}</span>
       </div>
       <div className="loader-mid wrap">
         <p className="loader-line">
