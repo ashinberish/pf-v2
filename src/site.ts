@@ -9,7 +9,7 @@ export const site = {
   location: 'Chennai, India',
   caption: 'Turning coffee into code since 2022.',
   startYear: 2022,
-  skills: ['React', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'Vite', 'Frontend Engineering', 'UI Motion'],
+  skills: ['React', 'Angular', 'Python', 'FastAPI', 'TypeScript', 'AWS', 'Azure', 'AI', 'Frontend'],
   statement: [
     { text: 'Coding wizard by day, caffeine-fueled debugger by night. I build web interfaces that feel' },
     { text: 'fast,', em: true },
