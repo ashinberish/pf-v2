@@ -58,7 +58,7 @@ export const Halftone = ({ alt }: { alt: string }) => {
       const p = Math.min(1, Math.max(0, (t - start) / 1600))
       ctx.fillStyle = '#0b0b0b'
       ctx.fillRect(0, 0, W, H)
-      ctx.fillStyle = '#f2ece6'
+      ctx.fillStyle = '#f4f3f1'
       for (const d of dots) {
         const local = Math.max(0, Math.min(1, p * 1.6 - d.dist))
         const r = d.r * (1 - Math.pow(1 - local, 3))
