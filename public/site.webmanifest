@@ -1,0 +1,9 @@
+{
+  "name": "Ashin Berish",
+  "short_name": "Ashin",
+  "icons": [{ "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }],
+  "theme_color": "#ff5a1f",
+  "background_color": "#ff5a1f",
+  "display": "standalone",
+  "start_url": "/"
+}
