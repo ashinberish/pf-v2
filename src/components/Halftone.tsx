@@ -126,7 +126,7 @@ export const Halftone = ({ alt }: { alt: string }) => {
   }, [])
 
   return (
-    <figure className="portrait" ref={frame} data-cursor="Move">
+    <figure className="portrait" ref={frame} data-cursor="Move" data-surface="dark">
       <picture>
         <source srcSet={portraitWebp} type="image/webp" />
         <img src={portraitJpg} alt={alt} width={600} height={716} decoding="async" {...{ fetchpriority: "high" }} />

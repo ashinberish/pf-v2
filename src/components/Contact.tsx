@@ -25,7 +25,7 @@ const MagneticLink = ({ href, label }: { href: string; label: string }) => {
   }, [])
 
   return (
-    <a className="mag" data-cursor="Visit" href={href} ref={ref} target="_blank" rel="me noopener">
+    <a className="mag" href={href} ref={ref} target="_blank" rel="me noopener">
       {label}
       <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
         <path d="M3 11 11 3M5 3h6v6" />
@@ -35,7 +35,7 @@ const MagneticLink = ({ href, label }: { href: string; label: string }) => {
 }
 
 export const Contact = () => (
-  <section className="band contact" id="contact" aria-labelledby="contact-title">
+  <section className="band contact" id="contact" data-surface="light" aria-labelledby="contact-title">
     <div className="wrap">
       <div className="sec-head label">
         <h2 id="contact-title">Contact</h2>

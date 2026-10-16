@@ -57,13 +57,10 @@ a { color: inherit; }
 nav { position: absolute; z-index: 5; left: 0; right: 0; top: 0; }
 nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 20px; }
 .mono-mark { font-weight: 700; font-size: 20px; letter-spacing: -.04em; color: var(--ink); text-decoration: none; }
-.nav-links { display: flex; gap: 22px; }
+.nav-links { display: flex; gap: 28px; margin-left: auto; }
 .nav-links a { color: var(--ink); text-decoration: none; font-weight: 500; font-size: 15px; position: relative; }
 .nav-links a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease); }
 .nav-links a:hover::after, .nav-links a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
-.status { display: inline-flex; gap: 8px; align-items: center; color: var(--ink); }
-.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); animation: pulse 1.8s ease-out infinite; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(42, 18, 6, .5); } 100% { box-shadow: 0 0 0 10px rgba(42, 18, 6, 0); } }
 
 /* hero */
 .hero { position: relative; background: var(--stage); color: var(--ink); overflow: hidden; isolation: isolate; }
@@ -182,7 +179,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 @media (max-width: 760px) {
   .hero-grid { grid-template-columns: 1fr; padding-block: 80px 48px; }
   .portrait { width: 62%; }
-  .nav-links { display: none; }
+  .nav-links { gap: 18px; }
   .role { gap: 12px; font-size: 15px; }
   .caption { white-space: normal; }
   .about-grid { grid-template-columns: 1fr; }
@@ -216,21 +213,23 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 /* hold the hero sequence until the loader exits, then it plays from the start */
 .loading .hero, .loading .hero *, .loading .hero *::before, .loading .hero *::after { animation-play-state: paused !important; }
 
-/* custom cursor (fine pointers only; enabled by Cursor.tsx) */
-.cursor-dot, .cursor-ring { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; opacity: 0; transition: opacity .3s; mix-blend-mode: difference; }
+/* custom cursor (fine pointers only; enabled by Cursor.tsx). Orange on dark surfaces, ink on orange ones. */
+:root { --cur: var(--stage); --cur-text: var(--ink); }
+.cursor-light { --cur: var(--ink); --cur-text: var(--stage); }
+.cursor-dot, .cursor-ring { position: fixed; left: 0; top: 0; z-index: 60; pointer-events: none; opacity: 0; transition: opacity .3s; }
 .cursor-on .cursor-dot, .cursor-on .cursor-ring { opacity: 1; }
-.cursor-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: #fff; }
+.cursor-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; border-radius: 50%; background: var(--cur); transition: opacity .3s, background .25s; }
 .cursor-ring { width: 0; height: 0; }
 .cursor-ring::before {
   content: ''; position: absolute; left: -20px; top: -20px; width: 40px; height: 40px; border-radius: 50%;
-  border: 1.5px solid #fff; transition: transform .35s var(--ease), background .25s, border-color .25s;
+  border: 1.5px solid var(--cur); transition: transform .35s var(--ease), background .25s, border-color .25s;
 }
-.cursor-hover .cursor-ring::before { transform: scale(1.6); background: #fff; }
-.cursor-label .cursor-ring::before { transform: scale(2.1); }
+.cursor-hover .cursor-ring::before { transform: scale(1.5); }
+.cursor-label .cursor-ring::before { transform: scale(2.1); background: var(--cur); }
 .cursor-down .cursor-ring::before { transform: scale(.8); }
 .cursor-ring span {
   position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
-  font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #000; white-space: nowrap;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--cur-text); white-space: nowrap;
 }
 .cursor-hover .cursor-dot { opacity: 0; }
 .has-cursor, .has-cursor * { cursor: none !important; }

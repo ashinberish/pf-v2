@@ -36,7 +36,7 @@ const Caption = ({ text }: { text: string }) => {
 }
 
 export const Hero = () => (
-  <header className="hero" id="top">
+  <header className="hero" id="top" data-surface="light">
     <div className="beams" aria-hidden="true">
       <div className="beam b1" />
       <div className="beam b2" />
@@ -54,10 +54,6 @@ export const Hero = () => (
           <a href="#experience">Experience</a>
           <a href="#contact">Contact</a>
         </div>
-        <span className="status label">
-          <i aria-hidden="true" />
-          Open to work
-        </span>
       </div>
     </nav>
 
@@ -75,7 +71,7 @@ export const Hero = () => (
         </h1>
         <p className="role">
           <span>{site.role}</span>
-          <span>{site.company}</span>
+          <span>{site.location}</span>
         </p>
         <Caption text={site.caption} />
       </div>

@@ -17,13 +17,18 @@ export const Cursor = () => {
     const l = label.current!
     let x = -100, y = -100, rx = -100, ry = -100
     let raf = 0
+    let last = 0
 
-    const loop = () => {
-      rx += (x - rx) * 0.18
-      ry += (y - ry) * 0.18
+    const loop = (t: number) => {
+      // frame-rate independent easing so the ring keeps up on slow or throttled frames
+      const k = 1 - Math.pow(0.75, Math.min(4, (t - (last || t - 16.7)) / 16.7))
+      last = t
+      rx += (x - rx) * k
+      ry += (y - ry) * k
       d.style.transform = `translate(${x}px, ${y}px)`
       r.style.transform = `translate(${rx}px, ${ry}px)`
-      raf = Math.abs(x - rx) + Math.abs(y - ry) > 0.1 ? requestAnimationFrame(loop) : 0
+      if (Math.abs(x - rx) + Math.abs(y - ry) > 0.1) raf = requestAnimationFrame(loop)
+      else raf = last = 0
     }
     const onMove = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return
@@ -34,6 +39,8 @@ export const Cursor = () => {
       const text = target?.dataset.cursor ?? ''
       root.classList.toggle('cursor-hover', !!target)
       root.classList.toggle('cursor-label', !!text)
+      // match the surface under the pointer: ink on orange, orange on dark
+      root.classList.toggle('cursor-light', (e.target as Element).closest('[data-surface]')?.getAttribute('data-surface') === 'light')
       if (l.textContent !== text) l.textContent = text
       if (!raf) raf = requestAnimationFrame(loop)
     }
@@ -47,7 +54,7 @@ export const Cursor = () => {
     window.addEventListener('pointerup', onUp)
     return () => {
       cancelAnimationFrame(raf)
-      root.classList.remove('has-cursor', 'cursor-on', 'cursor-hover', 'cursor-label', 'cursor-down')
+      root.classList.remove('has-cursor', 'cursor-on', 'cursor-hover', 'cursor-label', 'cursor-down', 'cursor-light')
       window.removeEventListener('pointermove', onMove)
       document.removeEventListener('pointerleave', onLeave)
       window.removeEventListener('pointerdown', onDown)
