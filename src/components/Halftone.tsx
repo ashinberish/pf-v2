@@ -6,29 +6,27 @@ import { prefersReducedMotion } from '../motion'
 
 type Dot = { x: number; y: number; r: number; dist: number }
 
-// Renders the portrait as a halftone on canvas. The <img> underneath is the
-// crawlable, no-JS fallback; the canvas fades in once it has drawn.
+// Opening effect: the portrait builds up as halftone dots on a canvas, then the canvas
+// fades away to reveal the plain photo. The <img> is the real, crawlable image.
 export const Halftone = ({ alt }: { alt: string }) => {
-  const frame = useRef<HTMLElement>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
-  const [ready, setReady] = useState(false)
+  const [phase, setPhase] = useState<'idle' | 'building' | 'done'>('idle')
 
   useEffect(() => {
     const cv = canvas.current!
-    const fig = frame.current!
     const ctx = cv.getContext('2d')
-    if (!ctx) return
-    const reduce = prefersReducedMotion()
+    if (!ctx || prefersReducedMotion()) {
+      setPhase('done')
+      return
+    }
     const img = new Image()
     let dots: Dot[] = []
     let step = 8
     let W = 0
     let H = 0
     let start = 0
-    let mx = 0
-    let my = 0
-    let hover = false
     let raf = 0
+    let fadeTimer = 0
 
     const build = () => {
       const rect = cv.getBoundingClientRect()
@@ -57,81 +55,55 @@ export const Halftone = ({ alt }: { alt: string }) => {
     }
 
     const draw = (t: number) => {
-      const p = reduce ? 1 : Math.min(1, Math.max(0, (t - start) / 1600))
+      const p = Math.min(1, Math.max(0, (t - start) / 1600))
       ctx.fillStyle = '#0b0b0b'
       ctx.fillRect(0, 0, W, H)
       ctx.fillStyle = '#f2ece6'
-      const radius = step * 6
       for (const d of dots) {
         const local = Math.max(0, Math.min(1, p * 1.6 - d.dist))
-        let r = d.r * (1 - Math.pow(1 - local, 3))
-        if (hover) {
-          const dd = Math.hypot(d.x - mx, d.y - my)
-          if (dd < radius) {
-            const k = 1 - dd / radius
-            r = r * (1 - k * 0.8) + k * step * 0.18
-          }
-        }
+        const r = d.r * (1 - Math.pow(1 - local, 3))
         if (r > 0.35) {
           ctx.beginPath()
           ctx.arc(d.x, d.y, r, 0, Math.PI * 2)
           ctx.fill()
         }
       }
-      raf = p < 1 || hover ? requestAnimationFrame(draw) : 0
-    }
-    const kick = () => {
-      if (!raf) raf = requestAnimationFrame(draw)
+      if (p < 1) {
+        raf = requestAnimationFrame(draw)
+      } else {
+        raf = 0
+        // hold the finished halftone for a beat, then dissolve to the photo
+        fadeTimer = window.setTimeout(() => setPhase('done'), 450)
+      }
     }
 
     let offIntro = () => {}
     const onLoad = () => {
       build()
       offIntro = onIntroDone(() => {
-        start = performance.now() + (reduce ? 0 : 250)
-        setReady(true)
-        kick()
+        start = performance.now() + 250
+        setPhase('building')
+        raf = requestAnimationFrame(draw)
       })
-    }
-    const onResize = () => {
-      build()
-      kick()
-    }
-    const onMove = (e: PointerEvent) => {
-      if (reduce) return
-      const rect = cv.getBoundingClientRect()
-      mx = (e.clientX - rect.left) * (W / rect.width)
-      my = (e.clientY - rect.top) * (H / rect.height)
-      hover = true
-      kick()
-    }
-    const onLeave = () => {
-      hover = false
-      kick()
     }
 
     img.addEventListener('load', onLoad)
     img.src = portraitJpg
-    window.addEventListener('resize', onResize)
-    fig.addEventListener('pointermove', onMove)
-    fig.addEventListener('pointerleave', onLeave)
     return () => {
       cancelAnimationFrame(raf)
+      clearTimeout(fadeTimer)
       offIntro()
       img.removeEventListener('load', onLoad)
-      window.removeEventListener('resize', onResize)
-      fig.removeEventListener('pointermove', onMove)
-      fig.removeEventListener('pointerleave', onLeave)
     }
   }, [])
 
   return (
-    <figure className="portrait" ref={frame} data-cursor="Move" data-surface="dark">
+    <figure className="portrait" data-surface="dark">
       <picture>
         <source srcSet={portraitWebp} type="image/webp" />
         <img src={portraitJpg} alt={alt} width={600} height={716} decoding="async" {...{ fetchpriority: "high" }} />
       </picture>
-      <canvas ref={canvas} className={ready ? 'ready' : undefined} aria-hidden="true" />
+      <canvas ref={canvas} className={phase} aria-hidden="true" />
       <figcaption className="tag label">Chennai · IN</figcaption>
     </figure>
   )
